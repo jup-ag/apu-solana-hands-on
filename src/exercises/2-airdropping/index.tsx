@@ -5,11 +5,14 @@ const Exercise2Airdropping: React.FC<{
   keypair: Keypair | null;
   connection: Connection;
 }> = ({ keypair, connection }) => {
+  const [airdropped, setAirdropped] = useState<boolean>(false);
   const [airdropping, setAirdropping] = useState<boolean>(false);
+
   const onClickAirdrop = async () => {
     if (!keypair?.publicKey) return;
 
     setAirdropping(true);
+    setAirdropped(true);
     try {
       const txid = await connection.requestAirdrop(
         keypair?.publicKey,
@@ -32,23 +35,41 @@ const Exercise2Airdropping: React.FC<{
     <div className="mt-6">
       <p className="font-semibold">Airdop</p>
       <div className="mt-4">
-        {airdropping ? (
-          <button
-            type="button"
-            disabled
-            className="cursor-not-allowed opacity-50 text-black backdrop-blur-2xl rounded-xl px-4 py-2 bg-white"
-          >
-            Airdropping...
-          </button>
-        ) : (
-          <button
-            type="button"
-            onClick={onClickAirdrop}
-            className="text-black backdrop-blur-2xl rounded-xl px-4 py-2 bg-white"
-          >
-            Click to Airdrop
-          </button>
-        )}
+        {(() => {
+          if (airdropping) {
+            return (
+              <button
+                type="button"
+                disabled
+                className="cursor-not-allowed opacity-50 text-black backdrop-blur-2xl rounded-xl px-4 py-2 bg-white"
+              >
+                Airdropping...
+              </button>
+            );
+          }
+
+          if (airdropped) {
+            return (
+              <button
+                type="button"
+                disabled
+                className="cursor-not-allowed opacity-50 text-black backdrop-blur-2xl rounded-xl px-4 py-2 bg-white"
+              >
+                Already Airdropped
+              </button>
+            );
+          }
+
+          return (
+            <button
+              type="button"
+              onClick={onClickAirdrop}
+              className="text-black backdrop-blur-2xl rounded-xl px-4 py-2 bg-white"
+            >
+              Click to Airdrop
+            </button>
+          );
+        })()}
       </div>
     </div>
   );
