@@ -13,12 +13,15 @@ const Exercise2Airdropping: React.FC<{
 
     setAirdropping(true);
     setAirdropped(true);
+
+    /** Exercise 2, use the connection object to request an airdrop to your Keypair */
     try {
       const txid = await connection.requestAirdrop(
         keypair?.publicKey,
         1_000_000_000
       );
       const result = await connection.confirmTransaction(txid);
+      /** End of exercise 2 */
 
       if ("err" in result) {
         console.error(result.err);
@@ -76,3 +79,11 @@ const Exercise2Airdropping: React.FC<{
 };
 
 export default Exercise2Airdropping;
+
+/** Answers
+const txid = await connection.requestAirdrop(
+  keypair?.publicKey,
+  1_000_000_000
+);
+const result = await connection.confirmTransaction(txid);
+*/

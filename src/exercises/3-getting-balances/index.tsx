@@ -11,8 +11,10 @@ const Exercise3GettingBalance: React.FC<{
       if (!keypair?.publicKey) return;
 
       try {
+        /** Exercise 3, use the connection object to fetch the account's balance */
         const solBalance = await connection.getBalance(keypair.publicKey);
         setBalance((solBalance / 10 ** 9).toFixed(9));
+        /** End of exercise 3 */
       } catch (error) {
         console.error(error);
       }
@@ -35,3 +37,8 @@ const Exercise3GettingBalance: React.FC<{
 };
 
 export default Exercise3GettingBalance;
+
+/** Answers
+const solBalance = await connection.getBalance(keypair.publicKey);
+setBalance((solBalance / 10 ** 9).toFixed(9));
+*/

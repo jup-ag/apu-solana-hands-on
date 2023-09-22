@@ -16,18 +16,28 @@ const Exercise5SendingTokens: React.FC<{
   const [recipient, setRecipient] = useState<string>("");
   const [amountToTransfer, setAmountToTransfer] = useState<number>(0);
   const [isSending, setIsSending] = useState<boolean>(false);
+  
   const onClickTransfer = async () => {
     if (!keypair?.publicKey) return;
 
+    /** Exercise 5.1: To verify if the PublicKey is valid */
     try {
       new PublicKey(recipient);
     } catch (error) {
       alert("Invalid Public Key");
       return;
     }
+    /** End of exercise 5.1 section */
 
+    setIsSending(true);
+
+    /** Exercise 5.2: To Craft a Transaction that sends SOL to the recipient
+     * craft a TransactionInstruction
+     * craft a TransactionMessage
+     * craft a VersionedTransaction
+     * Finally, send the transaction
+     * */
     try {
-      setIsSending(true);
       const ix = SystemProgram.transfer({
         fromPubkey: keypair?.publicKey,
         toPubkey: new PublicKey(recipient),
@@ -40,10 +50,13 @@ const Exercise5SendingTokens: React.FC<{
         recentBlockhash: blockhash,
         instructions: [ix],
       }).compileToV0Message();
+
       const verTx = new VersionedTransaction(messageV0);
       verTx.sign([keypair]);
       const txid = await connection.sendTransaction(verTx);
       setTxid(txid);
+
+      /** End of exercise 5.2 section */
     } catch (error) {
       console.error(error);
     } finally {
@@ -117,3 +130,32 @@ const Exercise5SendingTokens: React.FC<{
 };
 
 export default Exercise5SendingTokens;
+
+/** Answers 1
+try {
+  new PublicKey(recipient);
+} catch (error) {
+  alert("Invalid Public Key");
+  return;
+}
+*/
+
+/** Answers 2
+const ix = SystemProgram.transfer({
+  fromPubkey: keypair?.publicKey,
+  toPubkey: new PublicKey(recipient),
+  lamports: amountToTransfer,
+});
+
+const { blockhash } = await connection.getLatestBlockhash();
+const messageV0 = new TransactionMessage({
+  payerKey: keypair.publicKey,
+  recentBlockhash: blockhash,
+  instructions: [ix],
+}).compileToV0Message();
+
+const verTx = new VersionedTransaction(messageV0);
+verTx.sign([keypair]);
+const txid = await connection.sendTransaction(verTx);
+setTxid(txid);
+*/

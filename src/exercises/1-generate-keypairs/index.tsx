@@ -5,15 +5,19 @@ const Exercise1GenerateKeypairs: React.FC<{
   keypair: Keypair | null;
   setKeypair: Dispatch<SetStateAction<Keypair | null>>;
 }> = ({ keypair, setKeypair }) => {
+  /** Exercise 1, use the Keypair class to generate a Keypair for yourself */
   const generateKeypair = () => {
     const newKP = Keypair.generate();
     setKeypair(newKP);
   };
+  /** End of exercise 1 */
 
   return (
     <div className="max-w-full ">
       <p className="font-semibold">Your Keypair</p>
-      <p style={{ wordBreak: 'break-all' }}>PublicKey: {keypair?.publicKey?.toString()}</p>
+      <p style={{ wordBreak: "break-all" }}>
+        PublicKey: {keypair?.publicKey?.toString()}
+      </p>
       <div className="mt-4">
         <button
           type="button"
@@ -40,3 +44,10 @@ const Exercise1GenerateKeypairs: React.FC<{
 };
 
 export default Exercise1GenerateKeypairs;
+
+/** Answers
+const generateKeypair = () => {
+  const newKP = Keypair.generate();
+  setKeypair(newKP);
+};
+*/
