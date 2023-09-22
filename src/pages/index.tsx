@@ -1,12 +1,15 @@
 import GithubQR from "@/components/GithubQR";
 import Header from "@/components/Header";
+import { DEVNET_URL } from "@/constants";
 import Exercise1GenerateKeypairs from "@/exercises/1-generate-keypairs";
 import Exercise2Airdropping from "@/exercises/2-airdropping";
 import Exercise3GettingBalance from "@/exercises/3-getting-balances";
 import Exercise4ReadingRealtimeBlocks from "@/exercises/4-reading-realtime-blocks";
 import Exercise5SendingTokens from "@/exercises/5-sending-tokens";
+import { tasks } from "@/tasks";
 import { useLocalStorage } from "@jup-ag/wallet-adapter";
 import { Connection, Keypair, PublicKey } from "@solana/web3.js";
+import dynamic from "next/dynamic";
 import { Inter } from "next/font/google";
 import { useEffect, useMemo } from "react";
 
@@ -20,31 +23,68 @@ export const WRAPPED_SOL_MINT = new PublicKey(
   "So11111111111111111111111111111111111111112"
 );
 
-export default function Home() {
-  const [keypair, setKeypair] = useLocalStorage<Keypair | null>(
+function Home() {
+  const [storedKeypair, setKeypair] = useLocalStorage<Keypair | null>(
     "local-keypair",
     null
   );
 
-  // DO NOT DO THIS IN PRODUCTION
+  const [task, setTask] = useLocalStorage("task-index", 0);
+
+  // DO NOT DO THIS IN PRODUCTION, for demo purposes only
   useEffect(() => {
     if (keypair) {
       const sKeys = Uint8Array.from(
         Object.values((keypair as any)._keypair.secretKey) as any
       );
+      console.log({ sKeys });
       const regenKeypair = Keypair.fromSecretKey(sKeys);
       setKeypair(regenKeypair);
     }
     // On startup only
   }, []);
 
-  const connection = useMemo(
-    () =>
-      new Connection(
-        "https://devnet.helius-rpc.com/?api-key=cdb44f70-0173-4b5d-aa3d-8d128eb8a86c"
-      ),
-    []
-  );
+  const keypair = useMemo(() => {
+    if (storedKeypair) {
+      const sKeys = Uint8Array.from(
+        Object.values((storedKeypair as any)._keypair.secretKey) as any
+      );
+      return Keypair.fromSecretKey(sKeys);
+    }
+    return storedKeypair;
+  }, [storedKeypair]);
+
+  const connection = useMemo(() => new Connection(DEVNET_URL, "confirmed"), []);
+
+  const taskReactNode = useMemo(() => {
+    return [
+      <Exercise1GenerateKeypairs
+        key={0}
+        keypair={keypair}
+        setKeypair={setKeypair}
+      />,
+      <Exercise2Airdropping
+        key={1}
+        keypair={keypair}
+        connection={connection}
+      />,
+      <Exercise3GettingBalance
+        key={2}
+        keypair={keypair}
+        connection={connection}
+      />,
+      <Exercise4ReadingRealtimeBlocks
+        key={3}
+        keypair={keypair}
+        connection={connection}
+      />,
+      <Exercise5SendingTokens
+        key={4}
+        keypair={keypair}
+        connection={connection}
+      />,
+    ];
+  }, [connection, keypair, setKeypair]);
 
   return (
     <main
@@ -52,24 +92,37 @@ export default function Home() {
     >
       <Header />
 
-      <div className="mt-8 flex flex-col justify-center w-full max-w-2xl">
-        <Exercise1GenerateKeypairs keypair={keypair} setKeypair={setKeypair} />
-        <Separator />
+      <div className="flex-1">
+        <div className="border rounded-lg p-2 bg-slate-400 flex items-center space-x-3 mt-5">
+          <button
+            disabled={task === 0}
+            onClick={() => {
+              setTask((task) => task - 1);
+            }}
+            className="backdrop-blur-2xl rounded-xl px-4 py-2 bg-green-500 disabled:opacity-60"
+          >
+            Prev task
+          </button>
+          <span className="flex-1 text-center ">{tasks[task]}</span>
+          <button
+            disabled={task === tasks.length - 1}
+            onClick={() => {
+              setTask((task) => task + 1);
+            }}
+            className="backdrop-blur-2xl rounded-xl px-4 py-2 bg-green-500 disabled:opacity-60"
+          >
+            Next task
+          </button>
+        </div>
 
-        <Exercise2Airdropping keypair={keypair} connection={connection} />
-        <Separator />
-
-        <Exercise3GettingBalance keypair={keypair} connection={connection} />
-        <Separator />
-
-        <Exercise4ReadingRealtimeBlocks connection={connection} />
-        <Separator />
-
-        <Exercise5SendingTokens keypair={keypair} connection={connection} />
-        <Separator />
+        <div className="mt-8 flex flex-col justify-center w-full max-w-2xl">
+          {taskReactNode[task]}
+        </div>
       </div>
 
       <GithubQR />
     </main>
   );
 }
+
+export default dynamic(() => Promise.resolve(Home), { ssr: false });

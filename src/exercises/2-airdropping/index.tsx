@@ -1,5 +1,8 @@
+import Wallet from "@/components/Wallet";
 import { Connection, Keypair } from "@solana/web3.js";
 import React, { useState } from "react";
+
+export const task = "Lesson 2 - Airdrop. Fund your wallet.";
 
 const Exercise2Airdropping: React.FC<{
   keypair: Keypair | null;
@@ -35,46 +38,49 @@ const Exercise2Airdropping: React.FC<{
   };
 
   return (
-    <div className="mt-6">
-      <p className="font-semibold">Airdop</p>
-      <div className="mt-4">
-        {(() => {
-          if (airdropping) {
+    <>
+      {keypair && <Wallet keypair={keypair} />}
+      <div className="mt-6">
+        <p className="font-semibold">Airdop</p>
+        <div className="mt-4">
+          {(() => {
+            if (airdropping) {
+              return (
+                <button
+                  type="button"
+                  disabled
+                  className="cursor-not-allowed opacity-50 text-black backdrop-blur-2xl rounded-xl px-4 py-2 bg-white"
+                >
+                  Airdropping...
+                </button>
+              );
+            }
+
+            if (airdropped) {
+              return (
+                <button
+                  type="button"
+                  disabled
+                  className="cursor-not-allowed opacity-50 text-black backdrop-blur-2xl rounded-xl px-4 py-2 bg-white"
+                >
+                  Already Airdropped
+                </button>
+              );
+            }
+
             return (
               <button
                 type="button"
-                disabled
-                className="cursor-not-allowed opacity-50 text-black backdrop-blur-2xl rounded-xl px-4 py-2 bg-white"
+                onClick={onClickAirdrop}
+                className="text-black backdrop-blur-2xl rounded-xl px-4 py-2 bg-white"
               >
-                Airdropping...
+                Click to Airdrop
               </button>
             );
-          }
-
-          if (airdropped) {
-            return (
-              <button
-                type="button"
-                disabled
-                className="cursor-not-allowed opacity-50 text-black backdrop-blur-2xl rounded-xl px-4 py-2 bg-white"
-              >
-                Already Airdropped
-              </button>
-            );
-          }
-
-          return (
-            <button
-              type="button"
-              onClick={onClickAirdrop}
-              className="text-black backdrop-blur-2xl rounded-xl px-4 py-2 bg-white"
-            >
-              Click to Airdrop
-            </button>
-          );
-        })()}
+          })()}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

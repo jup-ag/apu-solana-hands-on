@@ -1,3 +1,4 @@
+import Wallet from "@/components/Wallet";
 import {
   Connection,
   Keypair,
@@ -7,6 +8,8 @@ import {
   VersionedTransaction,
 } from "@solana/web3.js";
 import React, { useState } from "react";
+
+export const task = "Lesson 5 - Create a transaction to send SOL";
 
 const Exercise5SendingTokens: React.FC<{
   keypair: Keypair | null;
@@ -66,6 +69,7 @@ const Exercise5SendingTokens: React.FC<{
 
   return (
     <>
+      {keypair && <Wallet keypair={keypair} />}
       <div className="mt-6">
         <p className="font-semibold">Transfer SOL</p>
         <div className="mt-4">

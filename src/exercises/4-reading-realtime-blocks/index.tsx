@@ -1,9 +1,13 @@
-import { Connection } from "@solana/web3.js";
+import Wallet from "@/components/Wallet";
+import { Connection, Keypair } from "@solana/web3.js";
 import React, { useEffect, useState } from "react";
+
+export const task = "Lesson 4 - Understanding websocket";
 
 const Exercise4ReadingRealtimeBlocks: React.FC<{
   connection: Connection;
-}> = ({ connection }) => {
+  keypair: Keypair | null;
+}> = ({ connection, keypair }) => {
   const [currentBlock, setCurrentBlock] = useState<number>(0);
 
   useEffect(() => {
@@ -16,10 +20,13 @@ const Exercise4ReadingRealtimeBlocks: React.FC<{
   }, [connection]);
 
   return (
-    <div className="mt-6">
-      <p className="font-semibold">Current block</p>
-      <div className="mt-4">{currentBlock}</div>
-    </div>
+    <>
+      {keypair && <Wallet keypair={keypair} />}
+      <div className="mt-6">
+        <p className="font-semibold">Current block</p>
+        <div className="mt-4">{currentBlock}</div>
+      </div>
+    </>
   );
 };
 
