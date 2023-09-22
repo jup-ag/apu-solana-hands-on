@@ -16,7 +16,7 @@ const Exercise5SendingTokens: React.FC<{
   const [recipient, setRecipient] = useState<string>("");
   const [amountToTransfer, setAmountToTransfer] = useState<number>(0);
   const [isSending, setIsSending] = useState<boolean>(false);
-  
+
   const onClickTransfer = async () => {
     if (!keypair?.publicKey) return;
 
@@ -72,7 +72,7 @@ const Exercise5SendingTokens: React.FC<{
           Recipient:{" "}
           <input
             value={recipient}
-            className="rounded-lg border border-black/10 px-2 py-1 w-full max-w-[480px]"
+            className="text-black rounded-lg border border-black/10 px-2 py-1 w-full max-w-[480px]"
             onChange={(e) => {
               setRecipient(e.target.value);
             }}
@@ -81,7 +81,7 @@ const Exercise5SendingTokens: React.FC<{
         <div className="mt-4">
           Amount to transfer:{" "}
           <input
-            className="rounded-lg border border-black/10 px-2 py-1"
+            className="text-black rounded-lg border border-black/10 px-2 py-1"
             value={amountToTransfer}
             onChange={(e) => {
               setAmountToTransfer(e.target.valueAsNumber);
