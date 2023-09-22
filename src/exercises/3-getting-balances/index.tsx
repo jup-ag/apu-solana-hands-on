@@ -1,3 +1,4 @@
+import Wallet from "@/components/Wallet";
 import { Keypair, Connection } from "@solana/web3.js";
 import React, { useEffect, useState } from "react";
 
@@ -31,10 +32,13 @@ const Exercise3GettingBalance: React.FC<{
   }, [connection, keypair]);
 
   return (
-    <div className="mt-6">
-      <p className="font-semibold">Balance</p>
-      <div className="mt-4">{balance} SOL</div>
-    </div>
+    <>
+      {keypair && <Wallet keypair={keypair} />}
+      <div className="mt-6">
+        <p className="font-semibold">Balance</p>
+        <div className="mt-4">{balance} SOL</div>
+      </div>
+    </>
   );
 };
 

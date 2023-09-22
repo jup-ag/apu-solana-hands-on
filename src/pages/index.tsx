@@ -24,7 +24,7 @@ export const WRAPPED_SOL_MINT = new PublicKey(
 );
 
 function Home() {
-  const [keypair, setKeypair] = useLocalStorage<Keypair | null>(
+  const [storedKeypair, setKeypair] = useLocalStorage<Keypair | null>(
     "local-keypair",
     null
   );
@@ -37,11 +37,22 @@ function Home() {
       const sKeys = Uint8Array.from(
         Object.values((keypair as any)._keypair.secretKey) as any
       );
+      console.log({ sKeys });
       const regenKeypair = Keypair.fromSecretKey(sKeys);
       setKeypair(regenKeypair);
     }
     // On startup only
   }, []);
+
+  const keypair = useMemo(() => {
+    if (storedKeypair) {
+      const sKeys = Uint8Array.from(
+        Object.values((storedKeypair as any)._keypair.secretKey) as any
+      );
+      return Keypair.fromSecretKey(sKeys);
+    }
+    return storedKeypair;
+  }, [storedKeypair]);
 
   const connection = useMemo(() => new Connection(DEVNET_URL, "confirmed"), []);
 
@@ -62,7 +73,11 @@ function Home() {
         keypair={keypair}
         connection={connection}
       />,
-      <Exercise4ReadingRealtimeBlocks key={3} connection={connection} />,
+      <Exercise4ReadingRealtimeBlocks
+        key={3}
+        keypair={keypair}
+        connection={connection}
+      />,
       <Exercise5SendingTokens
         key={4}
         keypair={keypair}

@@ -1,3 +1,4 @@
+import Wallet from "@/components/Wallet";
 import {
   Connection,
   Keypair,
@@ -68,6 +69,7 @@ const Exercise5SendingTokens: React.FC<{
 
   return (
     <>
+      {keypair && <Wallet keypair={keypair} />}
       <div className="mt-6">
         <p className="font-semibold">Transfer SOL</p>
         <div className="mt-4">
