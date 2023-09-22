@@ -1,6 +1,8 @@
 import { Connection } from "@solana/web3.js";
 import React, { useEffect, useState } from "react";
 
+export const task = "Lesson 4 - Understanding websocket";
+
 const Exercise4ReadingRealtimeBlocks: React.FC<{
   connection: Connection;
 }> = ({ connection }) => {

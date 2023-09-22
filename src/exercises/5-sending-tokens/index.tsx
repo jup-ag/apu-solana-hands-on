@@ -8,6 +8,8 @@ import {
 } from "@solana/web3.js";
 import React, { useState } from "react";
 
+export const task = "Lesson 5 - Create a transaction to send SOL";
+
 const Exercise5SendingTokens: React.FC<{
   keypair: Keypair | null;
   connection: Connection;

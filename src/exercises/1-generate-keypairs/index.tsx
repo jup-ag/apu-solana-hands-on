@@ -1,14 +1,16 @@
 import { Keypair } from "@solana/web3.js";
 import { Dispatch, SetStateAction } from "react";
 
+export const task = "Lesson 1 - Keypair.";
+
 const Exercise1GenerateKeypairs: React.FC<{
   keypair: Keypair | null;
   setKeypair: Dispatch<SetStateAction<Keypair | null>>;
 }> = ({ keypair, setKeypair }) => {
   /** Exercise 1, use the Keypair class to generate a Keypair for yourself */
   const generateKeypair = () => {
-    const newKP = Keypair.generate();
-    setKeypair(newKP);
+    const keypair = Keypair.generate();
+    setKeypair(keypair);
   };
   /** End of exercise 1 */
 

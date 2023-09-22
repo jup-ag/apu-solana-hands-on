@@ -1,6 +1,8 @@
 import { Connection, Keypair } from "@solana/web3.js";
 import React, { useState } from "react";
 
+export const task = "Lesson 2 - Airdrop. Fund your wallet.";
+
 const Exercise2Airdropping: React.FC<{
   keypair: Keypair | null;
   connection: Connection;
