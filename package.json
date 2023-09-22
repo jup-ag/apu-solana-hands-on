@@ -26,5 +26,10 @@
     "typescript": "5.2.2",
     "@solana/spl-token": "0.3.8",
     "@solana/web3.js": "^1.77.3"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5"
   }
 }
