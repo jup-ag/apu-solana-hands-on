@@ -11,4 +11,5 @@
 `Keypair.generate()` is used to generate a random keypair
 
 ## Ref
+https://solanacookbook.com/references/keypairs-and-wallets.html#how-to-generate-a-new-keypair
 https://solana-labs.github.io/solana-web3.js/classes/Keypair.html

@@ -11,4 +11,6 @@ To get balance:
 `Connection.getBalance(pubkey)` is used to request to get SOL balance of a wallet.
 
 ## Ref
+https://solanacookbook.com/references/accounts.html#how-to-get-account-balance
+
 https://solana-labs.github.io/solana-web3.js/classes/Connection.html

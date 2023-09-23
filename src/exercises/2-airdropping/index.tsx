@@ -17,12 +17,13 @@ const Exercise2Airdropping: React.FC<{
     setAirdropping(true);
     setAirdropped(true);
 
-    /** Exercise 2, use the connection object to request an airdrop to your Keypair */
     try {
+      /** Exercise 2, use the connection object to request an airdrop to your Keypair */
       const txid = await connection.requestAirdrop(
         keypair?.publicKey,
         1_000_000_000
       );
+
       const result = await connection.confirmTransaction(txid);
       /** End of exercise 2 */
 

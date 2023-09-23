@@ -11,6 +11,8 @@
 `Connection.onSignature(signature, callback)` is used to understand the status of a transaction.
 
 ## Ref
+https://solanacookbook.com/references/local-development.html#subscribing-to-events
+
 https://solana-labs.github.io/solana-web3.js/classes/Connection.html#onRootChange
 
 https://solana-labs.github.io/solana-web3.js/classes/Connection.html#onSignature
