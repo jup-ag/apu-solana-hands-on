@@ -5,7 +5,7 @@
 - Keypair is essentially a wallet.
 - It contains a secret key and a public key.
 - Secret key is like password to control your wallet.
-- Pulic key is like your email address.
+- Public key is like your email address.
 
 ## Function
 `Keypair.generate()` is used to generate a random keypair
